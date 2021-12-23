@@ -51,4 +51,24 @@ class setupTest(unittest.TestCase):
             for jt in range(varNum):
                 self.assertTrue(hs1.retrieveMem()[it,jt] >= xDom[jt][0] and hs1.retrieveMem()[it,jt] <= xDom[jt][1])
 
+    def testSearch_constructor(self):
+        memSize = 4
+        varNum = 4
+
+        memo1,_,_ = self.make_memory(memSize, varNum,0)
+
+        for i in range(memo1.HMS):
+            for j in range(memo1.N):
+                memo1[i,j] = i*10+j
+
+        hsearch1 = self.make_hs(memSize, varNum, [(0,2),(-2,0),(5,8),(-1,3)])
+
+        print("Before Making hsearch.")
+
+        hsearch2 = harsea.HarmonySearch(memo1, [(0,2), (-2,0), (5,8), (-1,3)])
+
+        hsearch2.viewMemory()
+
+        print("We are to assume we can't viewMemory().")
+
 

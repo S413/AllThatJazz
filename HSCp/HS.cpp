@@ -179,9 +179,20 @@ public:
 		constraints = x_dom;
 	}
 
-	HarmonySearch(HarmonyMemory mem0, std::vector<std::pair<double, double>>x_dom) {
+	HarmonySearch(HarmonyMemory mem, std::vector<std::pair<double, double>>x_dom, double HMCR=0.7, double PR=0.1) : m_HMCR(HMCR), m_PR(PR) {
 		//should assume it is full already
 		//maybe check that the values are valid
+		for(size_t i = 0; i < mem.HMS(); ++i){
+			for(size_t j = 0; j < mem.N(); ++j){
+				if(mem(i,j) > x_dom[j].second || mem(i,j) < x_dom[j].first){
+					std::cout << "Warning. Some X values are outside set constraints." << std::endl;
+				}
+			}
+		}
+
+		constraints.resize(mem.N());
+		constraints = x_dom;
+		mem0 = mem;
 	}
 	
 	void viewMemory() {
@@ -230,6 +241,7 @@ PYBIND11_MODULE(HSCp, m){
 
 	py::class_<HarmonySearch>(m, "HarmonySearch")
                 .def(py::init<size_t,size_t,std::vector<std::pair<double,double>>>())
+		.def(py::init<HarmonyMemory, std::vector<std::pair<double,double>>>())
 	        .def("viewMemory", &HarmonySearch::viewMemory)
 		.def("viewConstraints", &HarmonySearch::viewConstraints)
 		.def("retrieveMem", &HarmonySearch::retrieveMem)
