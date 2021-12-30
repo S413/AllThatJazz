@@ -219,6 +219,8 @@ public:
 			std::cout << constraints[i].first << ", " << constraints[i].second << std::endl;
 		}
 	}
+	
+	
 
 	HarmonyMemory retrieveMem() { return mem0; }
 	std::vector<std::pair<double,double>> retrieveCons() { return constraints; }
