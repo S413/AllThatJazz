@@ -63,12 +63,21 @@ class setupTest(unittest.TestCase):
 
         hsearch1 = self.make_hs(memSize, varNum, [(0,2),(-2,0),(5,8),(-1,3)])
 
-        print("Before Making hsearch.")
-
         hsearch2 = harsea.HarmonySearch(memo1, [(0,2), (-2,0), (5,8), (-1,3)])
 
         hsearch2.viewMemory()
 
-        print("We are to assume we can't viewMemory().")
+    def test_constraint_retrieval(self):
+        memSize = 4
+        varNum = 4
 
+        c = [(0,3),(-3,0),(-2,2),(1,6)]
+
+        hsearch1 = self.make_hs(memSize, varNum, c)
+
+        constraints = hsearch1.retrieveCons()
+
+        for it in range(varNum):
+            self.assertEqual(constraints[it][0],c[it][0])
+            self.assertEqual(constraints[it][1],c[it][1])
 

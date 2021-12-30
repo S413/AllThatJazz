@@ -1,6 +1,7 @@
 #include<pybind11/pybind11.h>
 #include<pybind11/stl.h>
 #include<pybind11/operators.h>
+#include<pybind11/embed.h>
 
 #include<iostream>
 #include<vector>
@@ -195,6 +196,13 @@ public:
 		mem0 = mem;
 	}
 	
+	void PyObjectiveFunc() {
+		py::scoped_interpreter python;
+		
+		py::module objectFun = py::module::import("objectFun");
+		py::object OF = objectFun.attr("ObjectiveFun"); 
+	}
+	
 	void viewMemory() {
 		std::cout << "Current Harmony Memory State:" << std::endl;
 
@@ -213,6 +221,7 @@ public:
 	}
 
 	HarmonyMemory retrieveMem() { return mem0; }
+	std::vector<std::pair<double,double>> retrieveCons() { return constraints; }
 	double HMCR() const { return m_HMCR; }
 	void HMCR(double val) { m_HMCR = val; }
 	double PR() const { return m_PR; }
@@ -245,6 +254,7 @@ PYBIND11_MODULE(HSCp, m){
 	        .def("viewMemory", &HarmonySearch::viewMemory)
 		.def("viewConstraints", &HarmonySearch::viewConstraints)
 		.def("retrieveMem", &HarmonySearch::retrieveMem)
+		.def("retrieveCons", &HarmonySearch::retrieveCons)
 		.def_readwrite("HMCR", &HarmonySearch::m_HMCR)
 		.def_readwrite("PR", &HarmonySearch::m_PR);
 }	

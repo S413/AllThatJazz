@@ -23,18 +23,18 @@ class ObjectiveFun(object):
 
     def __init__(self):
         a, b, c, d, e, f = symbols('a b c d e f')
-        self.symbols = [a,b,c,d]
+        self.symbols = [a,b,c,d,e,f]
         
         expr = 5*a**23 - 100*b**12 + 33*c**5 - e**3 + f
         self.expr = expr
 
     def evaluate(self, vals):
         subst = [(self.symbols[i], vals[i]) for i in range(len(vals))]
-        res = self.expr(subst)
+        res = self.expr.subs(subst)
         
         return res
         
-    def print_expr():
+    def print_expr(self):
     	print(self.expr)
     	
 
