@@ -11,6 +11,6 @@ class setupTest(unittest.TestCase):
 
         cost.print_expr()
 
-        self.assertEqual(cost.evaluate([0,0,0,0, 0, 13]), 13.0)
+        self.assertEqual(cost.evaluate([1,1]), 0)
 
 

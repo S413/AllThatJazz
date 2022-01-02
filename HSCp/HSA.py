@@ -5,8 +5,8 @@ from random import random, randint, choice
 
 class StandardHarmonySearch():
     def __init__(self, HSettings, iters):
-       self.cost = objectiveFun()
-       self.HSettings = HSettings()
+       self.cost = ObjectiveFun()
+       self.HSettings = HSettings
        self.fitness = list()
        self.iters = iters
        self.best = None
@@ -15,8 +15,8 @@ class StandardHarmonySearch():
        self.constraints = HSettings.retrieveCons()
        
     def Jam(self):
-        for it in range(memory.HMS):
-            self.fitness.append(self.cost.evaluate(self.memory[it]))
+        for it in range(self.memory.HMS):
+            self.fitness.append(self.cost.evaluate([self.memory[it,x] for x in range(self.memory.N)]))
         
         self.best = min(range(len(self.fitness)), key=self.fitness.__getitem__)
         self.worst = max(range(len(self.fitness)), key=self.fitness.__getitem__)
@@ -25,38 +25,43 @@ class StandardHarmonySearch():
             self.Improvise()
             self.Update_HM()
 
-        print("Best lick found: {},{}\n".format(self.memory(self.fitness),self.cost.evaluate(self.memory[self.fitness])))
+        print("Best lick found: {}\n".format([self.memory[self.best,x] for x in range(self.memory.N)]))
+        print("= {}".format(self.fitness[self.best]))
 
     def Improvise(self):
+        self.new_lick = [None]*self.memory.N
         for it in range(self.memory.N):
             tHMCR = random()
-            self.new_lick = []*self.memory.N
             if(tHMCR <= self.HSettings.HMCR):
-                idx = randint(0,self.memory.HMS)
-                self.new_lick[it] = self.memory[idx][it]
+                idx = randint(0,self.memory.HMS-1)
+                self.new_lick[it] = self.memory[idx,it]
 
-                tPAR = random()
-                if(tPAR <= self.HSettings.PAR):
+                tPR = random()
+                if(tPR <= self.HSettings.PR):
                     if(choice([-1,1]) == 1):
-                        bw = rand()
+                        bw = random()
                         if(self.new_lick[it] + bw <= self.constraints[it][1]):
                             self.new_lick[it] = self.new_lick[it] + bw
                     else:
-                        bw = rand()
+                        bw = random()
                         if(self.new_lick[it] - bw >= self.constraints[it][0]):
                             self.new_lick[it] = self.new_lick[it] - bw
 
             else:
                 bw = randint(self.constraints[it][0],self.constraints[it][1])
-                self.new_lick = bw
+                self.new_lick[it] = bw
 
     def Update_HM(self):
         new_lick_score = self.cost.evaluate(self.new_lick)
-        if(new_lick_score < self.cost.evaluate(self.memory[self.worst])):
-            self.memory[self.worst] = self.new_lick
+        worst_cost = self.cost.evaluate([self.memory[self.worst,x] for x in range(self.memory.N)])
+        
+        if(abs(new_lick_score) < abs(worst_cost)):
+            
+            for it in range(self.memory.N):
+            	self.memory[self.worst,it] = self.new_lick[it]
 
             for it in range(self.memory.HMS):
-                self.fitness[it] = self.cost.evaluate(self.memory[it])
+                self.fitness[it] = self.cost.evaluate([self.memory[it,x] for x in range(self.memory.N)])
 
             self.best = min(range(len(self.fitness)), key=self.fitness.__getitem__)
             self.worst = max(range(len(self.fitness)), key=self.fitness.__getitem__)

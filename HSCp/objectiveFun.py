@@ -22,14 +22,14 @@ class ObjectiveFun(object):
     """
 
     def __init__(self):
-        a, b, c, d, e, f = symbols('a b c d e f')
-        self.symbols = [a,b,c,d,e,f]
+        a, b = symbols('a b')
+        self.symbols = [a,b]
         
-        expr = 5*a**23 - 100*b**12 + 33*c**5 - e**3 + f
+        expr = (1-a)**2 + 100*(b-a**2)**2
         self.expr = expr
 
     def evaluate(self, vals):
-        subst = [(self.symbols[i], vals[i]) for i in range(len(vals))]
+        subst = [(self.symbols[i], vals[i]) for i in range(len(self.symbols))]
         res = self.expr.subs(subst)
         
         return res

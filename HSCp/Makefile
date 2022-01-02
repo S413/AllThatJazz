@@ -12,6 +12,7 @@ defaults:
 test:
 	python3 -m pytest testIni.py
 	python3 -m pytest testObjectFun.py
+	python3 -m pytest testHSA.py
 
 clean:
 	rm -rf *.so __pycache__

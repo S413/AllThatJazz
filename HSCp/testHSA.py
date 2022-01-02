@@ -3,7 +3,36 @@ import os
 import timeit
 import unittest
 
-import HSA
+from HSA import StandardHarmonySearch
+import HSCp as harsea
+from objectiveFun import ObjectiveFun
 
 class HSTests(unittest.TestCase):
-    def
+    def test_base(self):
+        nVar = 2
+        memSize = 4
+        c = [(-300,500),(-300,500)]
+        
+        harsea1 = harsea.HarmonySearch(memSize, nVar, c)
+
+        iterations = 100
+        HS1 = StandardHarmonySearch(harsea1, iterations)
+
+        HS1.Jam()
+
+    def test_correct(self):
+        nVar = 2
+        memSize = 100
+        c = [(-200,200),(-200,200)]
+
+        harsea1 = harsea.HarmonySearch(memSize, nVar, c)
+
+        iterations = 100
+        HS1 = StandardHarmonySearch(harsea1, iterations)
+
+        HS1.Jam()
+
+        self.assertEqual(HS1.memory[HS1.best,0],1)
+        self.assertEqual(HS1.memory[HS1.best,1],1)
+
+        self.assertEqual(Hs1.fitness[HS1.best],0)
