@@ -23,11 +23,11 @@ class HSTests(unittest.TestCase):
     def test_correct(self):
         nVar = 2
         memSize = 100
-        c = [(-200,200),(-200,200)]
+        c = [(-10,10),(-10,10)]
 
         harsea1 = harsea.HarmonySearch(memSize, nVar, c)
 
-        iterations = 100
+        iterations = 1000
         HS1 = StandardHarmonySearch(harsea1, iterations)
 
         HS1.Jam()

@@ -33,23 +33,21 @@ class StandardHarmonySearch():
         for it in range(self.memory.N):
             tHMCR = random()
             if(tHMCR <= self.HSettings.HMCR):
-                idx = randint(0,self.memory.HMS-1)
+                idx = randint(0, self.memory.HMS)
                 self.new_lick[it] = self.memory[idx,it]
 
                 tPR = random()
                 if(tPR <= self.HSettings.PR):
-                    if(choice([-1,1]) == 1):
-                        bw = random()
-                        if(self.new_lick[it] + bw <= self.constraints[it][1]):
-                            self.new_lick[it] = self.new_lick[it] + bw
-                    else:
-                        bw = random()
+                    if(random() < 0.5):
+                        bw = random()*2 - 1
                         if(self.new_lick[it] - bw >= self.constraints[it][0]):
                             self.new_lick[it] = self.new_lick[it] - bw
-
+                    else:
+                        bw = random()*2 - 1
+                        if(self.new_lick[it] + bw <= self.constraints[it][1]):
+                            self.new_lick[it] = self.new_lick[it] + bw
             else:
-                bw = randint(self.constraints[it][0],self.constraints[it][1])
-                self.new_lick[it] = bw
+                self.new_lick[it] = random()*10 - self.constraints[it][0]
 
     def Update_HM(self):
         new_lick_score = self.cost.evaluate(self.new_lick)
