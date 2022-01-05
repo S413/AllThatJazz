@@ -16,7 +16,9 @@ class HSTests(unittest.TestCase):
         harsea1 = harsea.HarmonySearch(memSize, nVar, c)
 
         iterations = 100
-        HS1 = StandardHarmonySearch(harsea1, iterations)
+        syms = ['x', 'y']
+        expr = '(1-x)**2 + 100*(y-x**2)**2'
+        HS1 = StandardHarmonySearch(harsea1, syms, expr, iterations)
 
         HS1.Jam()
 
@@ -28,7 +30,9 @@ class HSTests(unittest.TestCase):
         harsea1 = harsea.HarmonySearch(memSize, nVar, c)
 
         iterations = 10000
-        HS1 = StandardHarmonySearch(harsea1, iterations)
+        syms = ['x', 'y']
+        expr = '(1-x)**2 + 100*(y-x**2)**2'
+        HS1 = StandardHarmonySearch(harsea1, syms, expr, iterations)
 
         HS1.Jam()
 

@@ -1,5 +1,6 @@
 import numpy as np
 from sympy import symbols, Eq, solve
+from sympy.parsing.sympy_parser import parse_expr
 import HSCp as harsea
 
 class ObjectiveFun(object):
@@ -21,12 +22,13 @@ class ObjectiveFun(object):
 
     """
 
-    def __init__(self):
-        a, b = symbols('a b')
-        self.symbols = [a,b]
-        
-        expr = (1-a)**2 + 100*(b-a**2)**2
-        self.expr = expr
+    def __init__(self, symbs, expr):
+        self.symbols = dict()
+        for i,c in enumerate(symbs):
+            self.symbols[i] = symbols(c)
+
+        self.expr = parse_expr(expr)
+
 
     def evaluate(self, vals):
         subst = [(self.symbols[i], vals[i]) for i in range(len(self.symbols))]

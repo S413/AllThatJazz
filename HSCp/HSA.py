@@ -4,8 +4,8 @@ from objectiveFun import ObjectiveFun
 from random import random, randint, choice
 
 class StandardHarmonySearch():
-    def __init__(self, HSettings, iters):
-       self.cost = ObjectiveFun()
+    def __init__(self, HSettings, syms, expr, iters):
+       self.cost = ObjectiveFun(syms, expr)
        self.HSettings = HSettings
        self.fitness = list()
        self.iters = iters
